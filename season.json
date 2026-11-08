@@ -1,0 +1,8 @@
+{
+  "env_id": "three_branches",
+  "season": "Season 5: Village dialogue",
+  "parameters": {
+    "seat_plan": "cast_10",
+    "daynight": true
+  }
+}
