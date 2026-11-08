@@ -821,6 +821,48 @@ class Agent:
                 return "I'm on a short break now. I'll get back to my rounds soon."
             return "I take short breaks between a few jobs, but right now I'm still on my rounds."
 
+        # Common village-life questions should still feel personal even when
+        # model access is unavailable. Keep these scripted and role-flavored;
+        # genuinely open-ended questions still fall through to BackgroundLLM.
+        life_question = (
+            any(phrase in lower for phrase in (
+                "living here", "live here", "life here", "life in three branches",
+                "living in three branches", "like it here", "like this village",
+                "like three branches", "what is it like here", "what's it like here",
+                "how is life here", "how's life here", "do you like living",
+            ))
+            or (
+                "village" in words
+                and any(word in words for word in ("like", "living", "life", "home"))
+            )
+        )
+        if life_question:
+            lines = {
+                "shrine": (
+                    "I like the quiet rhythm here. People work hard, but there's always time to stop by the shrine and breathe for a moment.",
+                    "Three Branches is peaceful in its own way. I enjoy looking after the shrine and seeing familiar faces pass through each day.",
+                ),
+                "stall": (
+                    "I like it here. The stall keeps me busy, and you get to know nearly everyone when half the village eventually needs supplies.",
+                    "Three Branches may be small, but there's always someone passing the stall with a story or something they need.",
+                ),
+                "grounds": (
+                    "I like being out in the village all day. You notice the little things when you're the one keeping the paths and lanterns in order.",
+                    "It's a good place to live. I spend most days making my rounds, so I get to see just about every corner of it.",
+                ),
+                "maintenance": (
+                    "I like knowing my work matters here. Pumps, boards, and little repairs aren't glamorous, but the village notices when they stop working.",
+                    "Three Branches keeps me busy, which I don't mind. There's satisfaction in keeping the practical side of village life running.",
+                ),
+                "caretaker": (
+                    "I like that everyone has their own part to play here. There's always something to tend, but the village feels lived-in because of it.",
+                    "It's home. I spend my day looking after the village, so I probably notice its small routines more than most people do.",
+                ),
+            }
+            return self.rng.choice(lines.get(self.role, (
+                "It's a good place to call home. Everyone has their routines, and by the end of the day the whole village settles down together.",
+            )))
+
         return None
 
     def _perform_visitor_request(self, observation):
