@@ -39,3 +39,11 @@ Test the connection with:
 ```console
 python -m sandbox llm
 ```
+
+## AI-Use disclosure and reflection
+
+I used ChatGPT to update my Three Branches agent so that the agents are now capable of maintaining short basic conversations with the player while they work around the village. Built upon previous season's agents, so all of their design goals are still present. ChatGPT made the code changes; and I did not make additional manual edits. I reviewed the new agent, checked the helpers against the environment page, and tested it against the seeds before and after each change. The new agent now performs as wanted for the design goal. I approached the design of this agent with a hybrid setup. The agent has some canned responses for basic keywords - like what their job is, or what they're currently doing - and includes LLM calls for more complex questions. If an answer isn't immediately available, the agent will let the player know when they have an answer and to ask the question again. I didn't route every question through the LLM so as to avoid the use of too many tokens and to make it so the responses felt more timely.
+
+# Design Goal
+
+My design goal for this agent was: In the RPG game, players should notice the villagers are now able to have short conversations with the player and answer most questions about the village or their job. Players should also notice that the villagers still move around the village doing their jobs and taking breaks.
